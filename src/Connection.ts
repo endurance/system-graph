@@ -15,7 +15,6 @@ export class ConductorConnection {
                     this.connectedConductors.push(cond)
                     cond.connections.push(this)
                 }
-
             }
             else {
                 this.connectedConductors.push(conductor);

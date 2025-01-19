@@ -5,12 +5,27 @@ import {Conductor} from "./Conductor.ts";
 //TODO: Connectors should be able to just exist with a known pin count. This will limit how many conductors can be added, and when adding a conductor it has to go to a pin.
 export class Connector{
     partNumber: string = "No Part Number Assigned";
-    name: string = "No Name Assigned";
-    conductorList : Conductor[]
+    partName: string = "No Name Assigned";
+    conductorList : Conductor[] = []
 
-    constructor(name: string){
-        this.name = name;
-        this.conductorList = []
+    constructor(inArg : string | Connector){
+        if (typeof inArg === "string"){
+            this.partName = inArg
+        }
+        else{
+            this.partName = inArg.partName
+            this.conductorList = inArg.conductorList
+            this.partNumber = inArg.partNumber
+        }
+    }
+
+    addNewConductorByName(name: string | string[]){
+        if (Array.isArray(name)){
+            name.map((condName) => this.conductorList.push(new Conductor(condName)))
+        }
+        else{
+            this.conductorList.push(new Conductor(name))
+        }
     }
     addConductor(myConductor : Conductor | Conductor[]){
         if (Array.isArray(myConductor)){
@@ -36,13 +51,15 @@ export class Connector{
         }
     }
     getConductorByName(name:string) : Conductor | undefined {
-        console.log("entry")
         for( const cond of this.conductorList){
             if (cond.getName() === name){
                 return cond
             }
         }
         return undefined
+    }
+    getConductorNames() : string[] {
+        return this.conductorList.map((cond) => cond.getName())
     }
 
 }

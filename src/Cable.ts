@@ -32,7 +32,7 @@ export class Cable {
                             const [onCable, refDes ] = this.isConnectorOnThisCable(otherConductor.connector)
                             if (onCable) {
                                 //can only enter if the potentially undefined field below is defined.
-                                console.log(`${conn.connector.name}, refdes ${conn.refDes}, pin ${conductor.name} is connected to ${otherConductor.connector.name}, refdes ${refDes}, ${otherConductor.name}`)
+                                console.log(`${conn.connector.partName}, refdes ${conn.refDes}, pin ${conductor.name} is connected to ${otherConductor.connector.name}, refdes ${refDes}, ${otherConductor.name}`)
                             }
                         }
                     }

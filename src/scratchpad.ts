@@ -8,7 +8,7 @@ const partNumberFactory = new PartNumberFactory();
 
 
 //Make two connectors. One has 10 positions known by their index. One has 2 positions, A and B.
-export function runSomeCode():void{
+export function runSomeCode():Connector{
     const Conn1 = new Connector("Conn1")
     Conn1.getPartNumber(partNumberFactory.generateNewPartNumber())
     Conn1.addNumberedConductors(10)
@@ -22,13 +22,12 @@ export function runSomeCode():void{
     myCable.addConnector(Conn1)
     myCable.addConnector(Conn2, "P2")
 
-    console.log(myCable)
+
     //connect conductor 1 from connector 1 to conductor A of connector 2
     let myConductor1 :Conductor | undefined = Conn1.getConductorByName("1") //do I really have to do this? Surely there's a better way to handle the output of that function.
-    console.log("hello!")
-    console.log(myConductor1)
+
     let myConductor2 :Conductor | undefined = Conn2.getConductorByName("A") //i could make getConductorByName spit out a null looking Conductor and check its value as an alternative
-    console.log(myConductor2)
+
     if (myConductor1 != undefined && myConductor2 != undefined) {
         const myFirstConnection  : ConductorConnection = new ConductorConnection([myConductor1, myConductor2])
     }
@@ -41,5 +40,14 @@ export function runSomeCode():void{
     }
     else console.log("conductors not found.")
 
-    myCable.returnInternalConnections()
+
+    //-------------------------------------------------
+    // Another use case. Given 2 connectors with named conductors, build the connections between conductors with the same name within a cable.
+    //-------------------------------------------------
+    const mySignalNamedConnector1 = new Connector("SignalNamedConnector1")
+    mySignalNamedConnector1.addConductor(new Conductor("High_Voltage"))
+    mySignalNamedConnector1.addConductor(new Conductor("Low_Voltage"))
+
+    return mySignalNamedConnector1
+
 }
