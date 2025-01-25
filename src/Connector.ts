@@ -1,16 +1,16 @@
 import {Conductor} from "./Conductor.ts";
 
 
-// A Connector is essentially the vertex of a graph with more data associated.
-//TODO: Connectors should be able to just exist with a known pin count. This will limit how many conductors can be added, and when adding a conductor it has to go to a pin.
 export class Connector{
     partNumber: string = "No Part Number Assigned";
     partName: string = "No Name Assigned";
     conductorList : Conductor[] = []
 
-    constructor(inArg : string | Connector){
+    //accepts a single string as the part number, or an object in order to duplicate it. A string name may optionally be provided, but it is ignored if an object is used in the parameters.
+    constructor(inArg : string | Connector, inName?: string) {
         if (typeof inArg === "string"){
-            this.partName = inArg
+            this.partNumber = inArg
+            this.partName = inName === undefined ? "No Name Assigned" : inName
         }
         else{
             this.partName = inArg.partName
@@ -60,6 +60,24 @@ export class Connector{
     }
     getConductorNames() : string[] {
         return this.conductorList.map((cond) => cond.getName())
+    }
+
+}
+
+export class ConnectorLibrary{
+    static addFailedError : string = "Failed to add connector due to duplicate part number.";
+    connectors : Record<string, Connector>
+    addEntry(connector : Connector) :boolean{
+        if(this.connectors === undefined){
+            this.connectors = {}
+            this.connectors[connector.partNumber] = connector
+            return true
+            }
+        if (!Object.keys(this.connectors).includes(connector.partNumber)){
+            this.connectors[connector.partNumber] = connector
+            return true
+        }
+        return false
     }
 
 }

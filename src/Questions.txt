@@ -1,6 +1,0 @@
-Why can typescript neatly handle the type "connector" but i can't use typeof on it?
-The typescript linting complains if I try to check for a type as Connector, and I understand in javascript classes don't map to types implicitly.
-But... it seems like typescript should handle that?
-
-I mean, it enforces it in the function signatures!     addConnector(conn : Connector){
-I really want to overload this method for different object types. But it seems like discerning between object types is sort of a pain -- does it have exactly this structure, these fields etc.
