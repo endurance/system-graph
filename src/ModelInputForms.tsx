@@ -1,4 +1,4 @@
 export interface ComponentEntryFormProps {
-    onClose(): () => void,
-    onSubmit(): void
+    onClose: () => void
+    onSubmit: () => void
 }

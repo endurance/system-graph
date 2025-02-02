@@ -27,17 +27,17 @@ function App() {
         <div>
           {isConnectorCreationDialogShown &&
               <ConnectorDefinitionComponent
-                  onClose={() => {setisInputDialogActive(false)}}
+                  onClose={() => {setisInputDialogActive(false)
+                      setIsConnectorCreationDialogShown(false)}}
                   onSubmit={() => {setisInputDialogActive(false)
                   setIsConnectorCreationDialogShown(false)}}
-                  connectorLibraryHandoff={() => console.log("handoff would happen here but I dont know if i need it!")}
                   Library={theConnectorLibrary}
               /> }
       </div>
         {!isInputDialogActive &&
             <div>
       <button onClick={() => {runSomeCode()}}>
-          Create a new cable
+          Run the app that does stuff
       </button>
     </div>}
     </>

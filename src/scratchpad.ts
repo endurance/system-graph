@@ -8,7 +8,7 @@ const partNumberFactory = new PartNumberFactory();
 
 
 //Make two connectors. One has 10 positions known by their index. One has 2 positions, A and B.
-export function runSomeCode():Connector{
+export function runSomeCode():void{
     const Conn1 = new Connector("Conn1")
     Conn1.getPartNumber(partNumberFactory.generateNewPartNumber())
     Conn1.addNumberedConductors(10)
@@ -48,6 +48,52 @@ export function runSomeCode():Connector{
     mySignalNamedConnector1.addConductor(new Conductor("High_Voltage"))
     mySignalNamedConnector1.addConductor(new Conductor("Low_Voltage"))
 
-    return mySignalNamedConnector1
 
+
+    const makeReferenceCable = (UID: string) :Cable =>{
+        const referenceCable = new Cable(`Reference Cable ${UID}`)
+        const pn1: string =partNumberFactory.generateNewPartNumber()
+        const conn1 = new Connector(pn1, `Reference Connector 1 ${UID}`)
+        referenceCable.addConnector(conn1)
+
+        conn1.addNumberedConductors(8)
+
+        const pn2: string = partNumberFactory.generateNewPartNumber()
+        const conn2 = new Connector(pn2, `Reference Connector 2 ${UID}`)
+        referenceCable.addConnector(conn2)
+        conn2.addNumberedConductors(8)
+
+        for (let i = 1; i <= 8; i++){
+            const condA : Conductor | undefined = conn1.getConductorByName(`${i}`)
+            const condB : Conductor | undefined = conn2.getConductorByName(`${i}`)
+            if (condA != undefined && condB != undefined) {
+                Conductor.Connect(condA, condB)
+
+            }
+        }
+        return referenceCable;
+
+    }
+    const refCable1 = makeReferenceCable("ONE")
+    const refCable2 = makeReferenceCable("TWO")
+
+    const connectCablesByConnector = (interfaceConn1 : Connector | undefined, interfaceConn2: Connector | undefined) =>{
+        if (interfaceConn1 != undefined && interfaceConn2 != undefined) {
+            for (let i : number = 1; i <= interfaceConn1.conductorList.length; i++){
+                const condA : Conductor | undefined = interfaceConn1.getConductorByName(`${i}`)
+                const condB : Conductor | undefined = interfaceConn2.getConductorByName(`${i}`)
+                if (condA != undefined && condB != undefined) {
+                    Conductor.Connect(condA, condB)
+
+                }
+            }
+        }
+    }
+
+    connectCablesByConnector(refCable1.connectorsAndRefDes.get('P1'),refCable2.connectorsAndRefDes.get('P2'))
+
+    console.log(`ref cable is ${refCable1}`)
+    console.log(refCable1)
 }
+
+

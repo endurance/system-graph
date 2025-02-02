@@ -1,10 +1,13 @@
 import React, {ChangeEvent, useState} from 'react'
 import {Connector, ConnectorLibrary} from "./Connector.ts";
-import {Conductor} from "./Conductor.ts";
 import {ComponentEntryFormProps} from "./ModelInputForms.tsx";
 
+interface ConnectorDefinitionComponentProps extends ComponentEntryFormProps {
+    Library: ConnectorLibrary
+}
 
-export function ConnectorDefinitionComponent({onClose, onSubmit, Library, connectorLibraryHandoff}): React.FC<ComponentEntryFormProps>
+
+export const ConnectorDefinitionComponent  :React.FC<ConnectorDefinitionComponentProps>  = ({onClose, onSubmit, Library})=>
 {
     const default_pin_quantity : number= 1
     const default_pin_names:string[] = ['1']
@@ -15,16 +18,14 @@ export function ConnectorDefinitionComponent({onClose, onSubmit, Library, connec
     const addConnectorToLibrary = () => {
         const myConn = new Connector(connectorName)
         myConn.addNewConductorByName(pinInputArray)
-        const added : number = Library.addEntry(myConn)
+        const added : boolean = Library.addEntry(myConn)
         if (added){
             setSubmissionError("")
-            connectorLibraryHandoff(Library)
             onSubmit()
         }
         else{
             console.log(Library)
             setSubmissionError(ConnectorLibrary.addFailedError)
-            connectorLibraryHandoff(Library)
         }
     }
     const handleNewConnectorNameChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -42,7 +43,7 @@ export function ConnectorDefinitionComponent({onClose, onSubmit, Library, connec
             setpinInputArray(myArray)
         }
     }
-    const updatePinNames = (index, value : string): void => {
+    const updatePinNames = (index : number, value : string): void => {
         const updatedPinInputs = [...pinInputArray]
         updatedPinInputs[index] = value
         setpinInputArray(updatedPinInputs)
@@ -99,8 +100,8 @@ interface ConnectorDisplayProps {
     conn: Connector
 }
 
-/*
-export const ConnectorDisplayComponent: React.FC<ConnectorDisplayProps>=({conn})=>{
+
+/*export const ConnectorDisplayComponent: React.FC<ConnectorDisplayProps>=({conn})=>{
     const [myConnector, updateMyConnector] = useState<Connector>(conn)
         return (
         <>
