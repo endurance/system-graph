@@ -67,7 +67,8 @@ export function runSomeCode():void{
             const condA : Conductor | undefined = conn1.getConductorByName(`${i}`)
             const condB : Conductor | undefined = conn2.getConductorByName(`${i}`)
             if (condA != undefined && condB != undefined) {
-                Conductor.Connect(condA, condB)
+                //Conductor.Connect(condA, condB)
+                referenceCable.makeConnection(condA, condB)
 
             }
         }
@@ -94,6 +95,8 @@ export function runSomeCode():void{
 
     console.log(`ref cable is ${refCable1}`)
     console.log(refCable1)
+    refCable1.printCable()
+
 }
 
 

@@ -22,4 +22,7 @@ export class ConductorConnection {
         }
 
     }
+    addConductor(cond1 : Conductor){
+        this.connectedConductors.push(cond1)
+    }
 }
